@@ -89,7 +89,7 @@ class ReadStream(threading.Thread):
 
             '''uncomment to log incoming data to file
             '''
-            #self.logToFile(incomingData,fileName)
+            self.logToFile(incomingData,"log1.hex")
 
             if incomingData:
 

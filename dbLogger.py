@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# serialThread.py
+# dbLogger.py
 
-#Copyright (C) 2014 Eilidh Fridlington http://eilidh.fridlington.com
+#Copyright (C) 2016 Javier Nuevo - www.facebook.com/neoproducciones
 
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import time
 import math
 import threading
 import datetime
+import sqlite3 as db
 
 
 
