@@ -30,7 +30,8 @@ class ReadStream(threading.Thread):
         self.port = port
         self.connected  = connected
         self.stream = False
-        self.MPH_Value = 0
+        self.integrity = False # Comprobación de integridad: todas las variables deben haber sido actualizadas
+        self.KMH_Value = 0
         self.RPM_Value = 0
         self.TEMP_Value = 0
         self.BATT_Value = 0
@@ -67,7 +68,24 @@ class ReadStream(threading.Thread):
                 time.sleep(2)
 
 
-        self.port.write('\x5A\x0B\x5A\x01\x5A\x08\x5A\x0C\x5A\x0D\x5A\x03\x5A\x05\x5A\x09\x5A\x13\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x21\xF0')
+        self.port.write('\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0b\x5A\x0c\x5A\x0d\x5A\x15\x5A\x16\x5A\x17\x5A\x1a\x5A\x1c\x5A\x1f\x5A\x23\xF0')
+
+        ####### Sensors to read:
+        ## [00] 0x01 RPM
+        ## [01] 0x05 MAF(V)
+        ## [02] 0x08 COOLANT TEMP(ºC)
+        ## [03] 0x09 O2 SENSOR(V)
+        ## [04] 0x0b KMH
+        ## [05] 0x0c BATT(V)
+        ## [06] 0x0d THRTL POSITION(V)
+        ## [07] 0x15 INJECTION TIME(ms)
+        ## [08] 0x16 IGN TIMING(BTDC)
+        ## [09] 0x17 IACV - AAC / V( %)
+        ## [10] 0x1a A/F ALPHA - LH
+        ## [11] 0x1c A/F ALPHA - LH(SELF - LEARN)
+        ## [12] 0x1f DIGITAL CONTROL REGISTER
+        ## [13] 0x23 INJECTOR TIME RH -- !!! maybe not in sr20de
+
         print 'waiting for ECU to stream data...'
 
         while self.stream == False:
@@ -83,33 +101,30 @@ class ReadStream(threading.Thread):
             else:
                 print 'Aligning data stream from ECU...'
 
-
         while self.stream == True:
             incomingData = self.port.read(16)
-
-            '''uncomment to log incoming data to file
-            '''
-            self.logToFile(incomingData,"log1.hex")
-
             if incomingData:
+                # We have a full line we could store into a file here
 
                 dataList = map(ord,incomingData)
+                integrity = False # Until all registers have been processed, data is marked invalid
 
-                self.MPH_Value = self.convertToMPH(int(dataList[0]))
+                self.KMH_Value = self.convertToKMH(int(dataList[0]))
                 self.RPM_Value = self.convertToRev(int(dataList[1]))
                 self.TEMP_Value = self.convertToTemp(int(dataList[2]))
                 self.BATT_Value = self.convertToBattery(float(dataList[3]))
                 self.AAC_Value = self.convertToAAC(int(dataList[10]))
                 self.MAF_Value = self.convertToMAF(int(dataList[7]))
 
+                integrity = True
 
             else:
                 pass
 
 
-    def convertToMPH(self,inputData):
+    def convertToKMH(self,inputData):
 
-        return int(round ((inputData * 2.11) * 0.621371192237334))
+        return int(round (inputData * 2))
 
     def convertToRev(self,inputData):
 
@@ -139,11 +154,6 @@ class ReadStream(threading.Thread):
 
         return 110 - inputData
 
-    def logToFile(self,data,fileName):
-
-        logFile = open(fileName + '.hex', 'a+')
-
-        logFile.write(data)
 
     def returnMPH(self):
         return self.MPH_Value
