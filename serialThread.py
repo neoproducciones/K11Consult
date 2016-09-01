@@ -31,14 +31,22 @@ class ReadStream(threading.Thread):
         self.connected  = connected
         self.stream = False
         self.integrity = False # Comprobación de integridad: todas las variables deben haber sido actualizadas
-        self.KMH_Value = 0
+
         self.RPM_Value = 0
-        self.TEMP_Value = 0
-        self.BATT_Value = 0
         self.MAF_Value = 0
-        self.AAC_Value = 0
+        self.TMP_Value = 0
+        self.O2S_Value = 0
+        self.KMH_Value = 0
+        self.BAT_Value = 0
+        self.THL_Value = 0
         self.INJ_Value = 0
-        self.TIM_Value = 0
+        self.IGN_Value = 0
+        self.IDL_Value = 0
+        self.AFS_Value = 0
+        self.AFL_Value = 0
+        self.DR0_Value = 0
+        self.DR1_Value = 0
+
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
         threading.Thread.__init__(self)
@@ -72,19 +80,19 @@ class ReadStream(threading.Thread):
 
         ####### Sensors to read:
         ## [00] 0x01 RPM
-        ## [01] 0x05 MAF(V)
-        ## [02] 0x08 COOLANT TEMP(ºC)
-        ## [03] 0x09 O2 SENSOR(V)
+        ## [01] 0x05 MAF (V)
+        ## [02] 0x08 TMP COOLANT TEMP(ºC)
+        ## [03] 0x09 O2S O2 SENSOR(V)
         ## [04] 0x0b KMH
-        ## [05] 0x0c BATT(V)
-        ## [06] 0x0d THRTL POSITION(V)
-        ## [07] 0x15 INJECTION TIME(ms)
-        ## [08] 0x16 IGN TIMING(BTDC)
-        ## [09] 0x17 IACV - AAC / V( %)
-        ## [10] 0x1a A/F ALPHA - LH
-        ## [11] 0x1c A/F ALPHA - LH(SELF - LEARN)
-        ## [12] 0x1f DIGITAL CONTROL REGISTER
-        ## [13] 0x23 INJECTOR TIME RH -- !!! maybe not in sr20de
+        ## [05] 0x0c BAT (V)
+        ## [06] 0x0d THL THRTL POSITION(V)
+        ## [07] 0x15 INJ INJECTION TIME(ms)
+        ## [08] 0x16 IGN IGN TIMING(BTDC)
+        ## [09] 0x17 IDL IACV - AAC / V( %)  (IDLE)
+        ## [10] 0x1a AFS A/F ALPHA - LH
+        ## [11] 0x1c AFL A/F ALPHA - LH(SELF - LEARN
+        ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
+        ## [13] 0x1f DR1 DIGITAL CONTROL REGISTER 1
 
         print 'waiting for ECU to stream data...'
 
@@ -107,51 +115,56 @@ class ReadStream(threading.Thread):
                 # We have a full line we could store into a file here
 
                 dataList = map(ord,incomingData)
-                integrity = False # Until all registers have been processed, data is marked invalid
 
-                self.KMH_Value = self.convertToKMH(int(dataList[0]))
-                self.RPM_Value = self.convertToRev(int(dataList[1]))
-                self.TEMP_Value = self.convertToTemp(int(dataList[2]))
-                self.BATT_Value = self.convertToBattery(float(dataList[3]))
-                self.AAC_Value = self.convertToAAC(int(dataList[10]))
-                self.MAF_Value = self.convertToMAF(int(dataList[7]))
-
-                integrity = True
+                convertValues (dataList)
 
             else:
                 pass
 
+    def convertValues (readvalues):
+        self.integrity = False  # Until all registers have been processed, data is marked invalid
 
-    def convertToKMH(self,inputData):
+        self.RPM_value = int(round((readvalues[0] * 12.5),2))
+        self.MAF_Value = readvalues[1] * 5
+        self.TMP_Value = readvalues[2] - 50
+        self.O2S_Value = 0
+        self.KMH_Value = int(round (readvalues[4] * 2))
+        self.BAT_Value = round(((readvalues[5] * 80) / 1000),1)
+        self.THL_Value = 0
+        self.INJ_Value = readvalues[7] / 100
+        self.IGN_Value = 0
+        self.IDL_Value = readvalues[9] / 2
+        self.AFS_Value = 0
+        self.AFL_Value = 0
+        self.DR0_Value = 0
+        self.DR1_Value = 0
 
-        return int(round (inputData * 2))
+        self.integrity = True
+        return true
 
-    def convertToRev(self,inputData):
 
-        return int(round((inputData * 12.5),2))
+#    def convertToKMH(self,inputData):
+#        return int(round (inputData * 2))
 
-    def convertToTemp(self,inputData):
+#    def convertToRev(self,inputData):
+#        return int(round((inputData * 12.5),2))
 
-        return inputData - 50
+#    def convertToTemp(self,inputData):
+#        return inputData - 50
 
-    def convertToBattery(self,inputData):
+#    def convertToBattery(self,inputData):
+#        return round(((inputData * 80) / 1000),1)
 
-        return round(((inputData * 80) / 1000),1)
+#    def convertToMAF(self,inputData):
+#       return inputData * 5
 
-    def convertToMAF(self,inputData):
-
-        return inputData * 5
-
-    def convertToAAC(self,inputData):
-
-        return inputData / 2
+#    def convertToAAC(self,inputData):
+#        return inputData / 2
 
     def convertToInjection(self,inputData):
-
         return inputData / 100
 
     def convertToTiming(self,inputData):
-
         return 110 - inputData
 
 
@@ -172,3 +185,4 @@ class ReadStream(threading.Thread):
 
     def returnMAF(self):
         return self.MAF_Value
+

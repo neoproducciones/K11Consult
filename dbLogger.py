@@ -23,143 +23,62 @@ import threading
 import datetime
 import sqlite3 as db
 
+""" Log arbitrary "two string" information to an sqlite3 database """
 
 
-class ReadStream(threading.Thread):
+class LogDB:
+    def __init__(self):
+        self.bOpen = False
 
-    def __init__(self, port,connected = False):
-        self.port = port
-        self.connected  = connected
-        self.stream = False
-        self.MPH_Value = 0
-        self.RPM_Value = 0
-        self.TEMP_Value = 0
-        self.BATT_Value = 0
-        self.MAF_Value = 0
-        self.AAC_Value = 0
-        self.INJ_Value = 0
-        self.TIM_Value = 0
-        self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
+    def open(self):
+        """ Connect to the LOCAL database """
+        if self.bOpen == True:
+            return
+        self.conn = sqlite3.connect('PyLog.sqlt3')
+        self.curs = self.conn.cursor()
+        self.bOpen = True
 
-        threading.Thread.__init__(self)
-        self.daemon = True
-        self.start()
+    def createTable(self):
+        """ Create a table for the logged messages """
+        self.open()
+        cmd = 'create table logged \
+           (timestr char(20), message char(256))'
+        self.curs.execute(cmd)
+        self.close()
 
-    def run(self):
+    def dropTable(self):
+        """ Remove the table from the database """
+        self.open()
+        cmd = 'drop table logged'
+        self.curs.execute(cmd)
+        self.close()
 
-        while self.connected == False:
+    def insertRow(self, timestr, message):
+        """ Insert an arbitrary logge prefix & message """
+        self.curs.execute('insert into logged values(?,?)', [timestr, message])
 
-            self.port.write('\xFF\xFF\xEF')
-            time.sleep(2)
-            isConnected = self.port.inWaiting()
+    def selectMessages(self):
+        """ Generator to enumerate thru selected values """
+        self.curs.execute('select * from logged')
+        for tstr, msg in self.curs.fetchall():
+            yield tstr, msg
 
-            if isConnected:
-                ecuResponse = self.port.read(1)
-                if ecuResponse == '\x10':
-                    print 'Correct reply from ECU, sending data...'
-                    self.connected = True
-
-                else:
-                    print 'Wrong reply from ECU'
-
-            else:
-                print 'Trying to connect to ECU'
-                self.port.write('\xFF\xFF\xEF')
-                time.sleep(2)
-
-
-        self.port.write('\x5A\x0B\x5A\x01\x5A\x08\x5A\x0C\x5A\x0D\x5A\x03\x5A\x05\x5A\x09\x5A\x13\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x21\xF0')
-        print 'waiting for ECU to stream data...'
-
-        while self.stream == False:
-            Header = 255
-            returnBytes = 14
-            frameStart = self.port.read(3)
-            frameList = map(ord,frameStart)
-
-            if frameList[1] == Header and frameList[2] == returnBytes:
-                print 'Data stream aligned, streaming from ECU.'
-                self.stream = True
-
-            else:
-                print 'Aligning data stream from ECU...'
+    def close(self):
+        """ Safe coding is no accident ... """
+        if self.bOpen:
+            self.conn.commit()
+        self.bOpen = False
 
 
-        while self.stream == True:
-            incomingData = self.port.read(16)
-
-            '''uncomment to log incoming data to file
-            '''
-            #self.logToFile(incomingData,fileName)
-
-            if incomingData:
-
-                dataList = map(ord,incomingData)
-
-                self.MPH_Value = self.convertToMPH(int(dataList[0]))
-                self.RPM_Value = self.convertToRev(int(dataList[1]))
-                self.TEMP_Value = self.convertToTemp(int(dataList[2]))
-                self.BATT_Value = self.convertToBattery(float(dataList[3]))
-                self.AAC_Value = self.convertToAAC(int(dataList[10]))
-                self.MAF_Value = self.convertToMAF(int(dataList[7]))
-
-
-            else:
-                pass
-
-
-    def convertToMPH(self,inputData):
-
-        return int(round ((inputData * 2.11) * 0.621371192237334))
-
-    def convertToRev(self,inputData):
-
-        return int(round((inputData * 12.5),2))
-
-    def convertToTemp(self,inputData):
-
-        return inputData - 50
-
-    def convertToBattery(self,inputData):
-
-        return round(((inputData * 80) / 1000),1)
-
-    def convertToMAF(self,inputData):
-
-        return inputData * 5
-
-    def convertToAAC(self,inputData):
-
-        return inputData / 2
-
-    def convertToInjection(self,inputData):
-
-        return inputData / 100
-
-    def convertToTiming(self,inputData):
-
-        return 110 - inputData
-
-    def logToFile(self,data,fileName):
-
-        logFile = open(fileName + '.hex', 'a+')
-
-        logFile.write(data)
-
-    def returnMPH(self):
-        return self.MPH_Value
-
-    def returnRPM(self):
-        return self.RPM_Value
-
-    def returnTEMP(self):
-        return self.TEMP_Value
-
-    def returnBATT(self):
-        return self.BATT_Value
-
-    def returnAAC(self):
-        return self.AAC_Value
-
-    def returnMAF(self):
-        return self.MAF_Value
+if __name__ == "__main__":
+    db = LogDB()
+    db.createTable()
+    try:
+        db.open()
+        for ss in range(10):
+            db.insertRow("MyTime" + str(ss), "Message " + str(ss + 1))
+        for zt, mgs in db.selectMessages():
+            print(zt, mgs)
+    finally:
+        db.close()
+        db.dropTable()
