@@ -34,19 +34,13 @@ MAF_Value = 0
 
 while True:
 
-    MPH_Value = incomingData.returnMPH()
-    RPM_Value = incomingData.returnRPM()
-    TEMP_Value = incomingData.returnTEMP()
-    BATT_Value = incomingData.returnBATT()
-    AAC_Value = incomingData.returnAAC()
-    MAF_Value = incomingData.returnMAF()
+    if incomingData.integrity
 
-    print "MPH: " , MPH_Value
-    print "RPM: " , RPM_Value
-    print "TMP: " , TEMP_Value
-    print "BAT: " , BATT_Value
-    print "AAC: " , AAC_Value
-    print "MAF: " , MAF_Value
+        print "MPH: " , MPH_Value
+        print "RPM: " , RPM_Value
+        print "TMP: " , TMP_Value
+        print "BAT: " , BAT_Value
+        print "MAF: " , MAF_Value
 
     #time.sleep(0.02)
 

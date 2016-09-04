@@ -127,17 +127,17 @@ class ReadStream(threading.Thread):
         self.RPM_value = int(round((readvalues[0] * 12.5),2))
         self.MAF_Value = readvalues[1] * 5
         self.TMP_Value = readvalues[2] - 50
-        self.O2S_Value = 0
+        self.O2S_Value = readvalues[3] * 10
         self.KMH_Value = int(round (readvalues[4] * 2))
         self.BAT_Value = round(((readvalues[5] * 80) / 1000),1)
-        self.THL_Value = 0
+        self.THL_Value = readvalues[6] * 20
         self.INJ_Value = readvalues[7] / 100
-        self.IGN_Value = 0
+        self.IGN_Value = 110 - readvalues[8]
         self.IDL_Value = readvalues[9] / 2
-        self.AFS_Value = 0
-        self.AFL_Value = 0
-        self.DR0_Value = 0
-        self.DR1_Value = 0
+        self.AFS_Value = readvalues[10]
+        self.AFL_Value = readvalues[11]
+        self.DR0_Value = readvalues[12]
+        self.DR1_Value = readvalues[13]
 
         self.integrity = True
         return true
@@ -161,11 +161,11 @@ class ReadStream(threading.Thread):
 #    def convertToAAC(self,inputData):
 #        return inputData / 2
 
-    def convertToInjection(self,inputData):
-        return inputData / 100
+#    def convertToInjection(self,inputData):
+#        return inputData / 100
 
-    def convertToTiming(self,inputData):
-        return 110 - inputData
+#    def convertToTiming(self,inputData):
+#        return 110 - inputData
 
 
     def returnMPH(self):
