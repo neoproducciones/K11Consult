@@ -1,29 +1,14 @@
-K11Consult
-==========
+nprods/K11Consult
+=================
 
-A python project that uses pyserial to interact with the ECU of Nissan vehicles that utilise the Nissan Consult protocol.
+IMPORTANT: Right at the moment, the project is in an "even-earlier-than-pre-alpha" state. It's published in Github just to make it easier to move the code between my devices. I also have very little experience with Python, so it's more a learning playground than any other thing.
 
-The protocol reads and writes hex via a serial connection, with dashboard.py sending the commands and reading in realtime the resultant data stream from the ECU. The script is essentially in two parts; a non blocking deamonised thread that interacts with the ECU, and a gui using pygame that displays the data in the style of a dashboard. There are no external images used as I've written this for minimal CPU usage and to show what's possible using the inbuilt drawing functions of pygame. A YouTube video can be [found here](http://youtu.be/cykgpQZ5iEU) of the program running in both windowed and fullscreen modes.
+nprods/K11Consult is a python project that uses pyserial to interact with the ECU of Nissan vehicles that utilise the Nissan Consult protocol.
 
-Update
+It's a fork of the original project, but modded to run in a headless Raspberry Pi with a USB data reader cable.
 
-The youtube video shows it running in Ubuntu - I've since switched to Debian as Ubuntu has a long-running bug that makes the keyboard unresponsive with applications that use fullscreen. So if you want to run this then don't use Ubuntu or Ubuntu-based distros.
+The protocol reads and writes hex via a serial connection, reading in realtime the resultant data stream from the ECU. 
 
-To make it work in realtime (Debian):
+The script will be essentially in three parts; a thread that interacts with the ECU and make data conversion, a second thread logging data to a sqlite database and a third one sending the read data to a LCD display.
 
-$ sudo apt-get install cutecom socat pygame python-serial
-
-$ sudo gpasswd --add $USER dialout
-
-Then logout / reboot
-
-$ socat -d -d pty,raw,echo=0 pty,raw,echo=0
-
-This will give you the two virtual serial port addresses. Set PORT in dashboard.py to one, and in cutecom the other. Also, in cutecom -> baud rate -> 9600.
-
-$ python dashboard.py
-
-In cutecom you should see FF FF EF - reply with 10 and the dashboard.py window should come to life. cutecom -> send file -> test_data.hex file.
-
-Currently the data displayed is MPH, RPM (large centre arcs), AAC, MAF, temperature and battery voltage. The script is actually streaming 14 data values but these are the most useful to display. Pressing f will make it go fullscreen, w will make it revert back to windowed mode.
-
+If you are interested in the project, please, contact me :)
