@@ -20,27 +20,17 @@ import os
 import sys
 import serial
 import serialThread
-from dials import *
 
 PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 incomingData = serialThread.ReadStream(PORT,True)
 
-MPH_Value = 0
-RPM_Value = 0
-TEMP_Value = 0
-BATT_Value = 0
-AAC_Value = 0
-MAF_Value = 0
+global RPM_Value
 
 while True:
 
-    if incomingData.integrity
+    if (incomingData.getIntegrity):
 
-        print "MPH: " , MPH_Value
-        print "RPM: " , RPM_Value
-        print "TMP: " , TMP_Value
-        print "BAT: " , BAT_Value
-        print "MAF: " , MAF_Value
+        println (RPM_Value)
 
     #time.sleep(0.02)
 

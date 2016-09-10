@@ -32,7 +32,7 @@ class ReadStream(threading.Thread):
         self.stream = False
         self.integrity = False # Comprobación de integridad: todas las variables deben haber sido actualizadas
 
-        self.RPM_Value = 0
+        RPM_Value = 0
         self.MAF_Value = 0
         self.TMP_Value = 0
         self.O2S_Value = 0
@@ -64,14 +64,14 @@ class ReadStream(threading.Thread):
             if isConnected:
                 ecuResponse = self.port.read(1)
                 if ecuResponse == '\x10':
-                    print 'Correct reply from ECU, sending data...'
+                    print ('Correct reply from ECU, sending data...')
                     self.connected = True
 
                 else:
-                    print 'Wrong reply from ECU'
+                    print ('Wrong reply from ECU')
 
             else:
-                print 'Trying to connect to ECU'
+                print ('Trying to connect to ECU')
                 self.port.write('\xFF\xFF\xEF')
                 time.sleep(2)
 
@@ -94,7 +94,7 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1f DR1 DIGITAL CONTROL REGISTER 1
 
-        print 'waiting for ECU to stream data...'
+        print ('waiting for ECU to stream data...')
 
         while self.stream == False:
             Header = 255
@@ -103,11 +103,11 @@ class ReadStream(threading.Thread):
             frameList = map(ord,frameStart)
 
             if frameList[1] == Header and frameList[2] == returnBytes:
-                print 'Data stream aligned, streaming from ECU.'
+                print ('Data stream aligned, streaming from ECU.')
                 self.stream = True
 
             else:
-                print 'Aligning data stream from ECU...'
+                print ('Aligning data stream from ECU...')
 
         while self.stream == True:
             incomingData = self.port.read(16)
@@ -115,7 +115,6 @@ class ReadStream(threading.Thread):
                 # We have a full line we could store into a file here
 
                 dataList = map(ord,incomingData)
-
                 convertValues (dataList)
 
             else:
@@ -124,7 +123,7 @@ class ReadStream(threading.Thread):
     def convertValues (readvalues):
         self.integrity = False  # Until all registers have been processed, data is marked invalid
 
-        self.RPM_value = int(round((readvalues[0] * 12.5),2))
+        RPM_value = int(round((readvalues[0] * 12.5),2))
         self.MAF_Value = readvalues[1] * 5
         self.TMP_Value = readvalues[2] - 50
         self.O2S_Value = readvalues[3] * 10
@@ -167,22 +166,5 @@ class ReadStream(threading.Thread):
 #    def convertToTiming(self,inputData):
 #        return 110 - inputData
 
-
-    def returnMPH(self):
-        return self.MPH_Value
-
-    def returnRPM(self):
-        return self.RPM_Value
-
-    def returnTEMP(self):
-        return self.TEMP_Value
-
-    def returnBATT(self):
-        return self.BATT_Value
-
-    def returnAAC(self):
-        return self.AAC_Value
-
-    def returnMAF(self):
-        return self.MAF_Value
-
+    def getIntegrity(self):
+        return self.integrity
