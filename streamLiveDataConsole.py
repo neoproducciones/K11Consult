@@ -26,6 +26,8 @@ incomingData = serialThread.ReadStream(PORT,True)
 
 global RPM_Value
 
+RPM_Value = 0
+
 while True:
 
     if (incomingData.getIntegrity):
