@@ -115,7 +115,10 @@ class ReadStream(threading.Thread):
                 # We have a full line we could store into a file here
 
                 dataList = map(ord,incomingData)
-                convertValues (dataList)
+                #convertValues (dataList)
+                RPM_value = int(round((dataList[0] * 12.5), 2))
+                print(RPM_value)
+
 
             else:
                 pass
