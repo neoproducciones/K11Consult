@@ -109,7 +109,6 @@ class ReadStream(threading.Thread):
                 print ('Aligning data stream from ECU...')
 
         while self.stream == True:
-            print ('Aligned and streaming')
             incomingData = self.port.read(16)
             if incomingData:
                 # We have a full line we could store into a file here
