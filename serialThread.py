@@ -30,7 +30,7 @@ class ReadStream(threading.Thread):
         self.port = port
         self.connected  = connected
         self.stream = False
-        self.integrity = False # Comprobación de integridad: todas las variables deben haber sido actualizadas
+        self.integrity = False
 
         RPM_Value = 0
         self.MAF_Value = 0
