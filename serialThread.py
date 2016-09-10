@@ -81,7 +81,7 @@ class ReadStream(threading.Thread):
         ####### Sensors to read:
         ## [00] 0x01 RPM
         ## [01] 0x05 MAF (V)
-        ## [02] 0x08 TMP COOLANT TEMP(Cent. degrees)
+        ## [02] 0x08 TMP COOLANT TEMP(Centigrade degrees)
         ## [03] 0x09 O2S O2 SENSOR(V)
         ## [04] 0x0b KMH
         ## [05] 0x0c BAT (V)
