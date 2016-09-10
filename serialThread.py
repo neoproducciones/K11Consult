@@ -124,6 +124,7 @@ class ReadStream(threading.Thread):
         self.integrity = False  # Until all registers have been processed, data is marked invalid
 
         RPM_value = int(round((readvalues[0] * 12.5),2))
+        print (RPM_value)
         self.MAF_Value = readvalues[1] * 5
         self.TMP_Value = readvalues[2] - 50
         self.O2S_Value = readvalues[3] * 10

@@ -36,7 +36,7 @@ RPM_Value = 0
         #print (RPM_Value)
 
 
-time.sleep(15)
+time.sleep(60)
 
 PORT.write('\x30')
 PORT.flushInput()
