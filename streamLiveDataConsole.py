@@ -28,13 +28,14 @@ global RPM_Value
 
 RPM_Value = 0
 
-while True:
+#while True:
 
-    if (incomingData.getIntegrity):
+    #if (incomingData.getIntegrity):
 
         #print (RPM_Value)
 
-    #time.sleep(0.02)
+
+time.sleep(15)
 
 PORT.write('\x30')
 PORT.flushInput()
