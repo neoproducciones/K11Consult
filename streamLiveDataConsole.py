@@ -32,7 +32,7 @@ while True:
 
     if (incomingData.getIntegrity):
 
-        print (RPM_Value)
+        #print (RPM_Value)
 
     #time.sleep(0.02)
 
