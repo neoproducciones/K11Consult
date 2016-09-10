@@ -23,7 +23,7 @@ import serialThread
 import time
 
 PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
-incomingData = serialThread.ReadStream(PORT,True)
+incomingData = serialThread.ReadStream(PORT,false)
 
 global RPM_Value
 
