@@ -76,23 +76,23 @@ class ReadStream(threading.Thread):
                 time.sleep(2)
 
 
-        self.port.write('\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0b\x5A\x0c\x5A\x0d\x5A\x15\x5A\x16\x5A\x17\x5A\x1a\x5A\x1c\x5A\x1f\x5A\x23\xF0')
+        self.port.write('\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0B\x5A\x0C\x5A\x0D\x5A\x15\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x1E\x5A\x1F\xF0')
 
         ####### Sensors to read:
         ## [00] 0x01 RPM
         ## [01] 0x05 MAF (V)
         ## [02] 0x08 TMP COOLANT TEMP(Centigrade degrees)
         ## [03] 0x09 O2S O2 SENSOR(V)
-        ## [04] 0x0b KMH
-        ## [05] 0x0c BAT (V)
-        ## [06] 0x0d THL THRTL POSITION(V)
+        ## [04] 0x0B KMH
+        ## [05] 0x0C BAT (V)
+        ## [06] 0x0D THL THRTL POSITION(V)
         ## [07] 0x15 INJ INJECTION TIME(ms)
         ## [08] 0x16 IGN IGN TIMING(BTDC)
         ## [09] 0x17 IDL IACV - AAC / V( %)  (IDLE)
-        ## [10] 0x1a AFS A/F ALPHA - LH
-        ## [11] 0x1c AFL A/F ALPHA - LH(SELF - LEARN
+        ## [10] 0x1A AFS A/F ALPHA - LH
+        ## [11] 0x1C AFL A/F ALPHA - LH(SELF - LEARN
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
-        ## [13] 0x1f DR1 DIGITAL CONTROL REGISTER 1
+        ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
         print ('waiting for ECU to stream data...')
 
@@ -105,11 +105,11 @@ class ReadStream(threading.Thread):
             if frameList[1] == Header and frameList[2] == returnBytes:
                 print ('Data stream aligned, streaming from ECU.')
                 self.stream = True
-
             else:
                 print ('Aligning data stream from ECU...')
 
         while self.stream == True:
+            print ('Aligned and streaming')
             incomingData = self.port.read(16)
             if incomingData:
                 # We have a full line we could store into a file here
