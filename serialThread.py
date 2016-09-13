@@ -32,20 +32,22 @@ class ReadStream(threading.Thread):
         self.stream = False
         self.integrity = False
 
-        RPM_Value = 0
-        self.MAF_Value = 0
-        self.TMP_Value = 0
-        self.O2S_Value = 0
-        self.KMH_Value = 0
-        self.BAT_Value = 0
-        self.THL_Value = 0
-        self.INJ_Value = 0
-        self.IGN_Value = 0
-        self.IDL_Value = 0
-        self.AFS_Value = 0
-        self.AFL_Value = 0
-        self.DR0_Value = 0
-        self.DR1_Value = 0
+
+
+        D['RPM'] = 0
+        D['MAF'] = 0
+        D['TMP'] = 0
+        D['OXY'] = 0
+        D['KMH'] = 0
+        D['BAT'] = 0
+        D['THL'] = 0
+        D['INJ'] = 0
+        D['IGN'] = 0
+        D['IDL'] = 0
+        D['AFS'] = 0
+        D['AFL'] = 0
+        D['DR0'] = 0
+        D['DR1'] = 0
 
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
@@ -82,7 +84,7 @@ class ReadStream(threading.Thread):
         ## [00] 0x01 RPM
         ## [01] 0x05 MAF (V)
         ## [02] 0x08 TMP COOLANT TEMP(Centigrade degrees)
-        ## [03] 0x09 O2S O2 SENSOR(V)
+        ## [03] 0x09 OXY O2 SENSOR(V)
         ## [04] 0x0B KMH
         ## [05] 0x0C BAT (V)
         ## [06] 0x0D THL THRTL POSITION(V)
@@ -115,8 +117,8 @@ class ReadStream(threading.Thread):
 
                 dataList = map(ord,incomingData)
                 #convertValues (dataList)
-                RPM_value = int(round((dataList[0] * 12.5), 2))
-                print(RPM_value)
+                D['RPM'] = int(round((dataList[0] * 12.5), 2))
+                print(D['RPM'])
 
 
             else:
