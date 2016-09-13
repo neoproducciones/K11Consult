@@ -32,7 +32,7 @@ class ReadStream(threading.Thread):
         self.stream = False
         self.integrity = False
 
-
+        # D es una variable global de tipo diccionario
 
         D['RPM'] = 0
         D['MAF'] = 0
@@ -42,7 +42,7 @@ class ReadStream(threading.Thread):
         D['BAT'] = 0
         D['THL'] = 0
         D['INJ'] = 0
-        D['IGN'] = 0
+        D['TIM'] = 0
         D['IDL'] = 0
         D['AFS'] = 0
         D['AFL'] = 0
@@ -89,7 +89,7 @@ class ReadStream(threading.Thread):
         ## [05] 0x0C BAT (V)
         ## [06] 0x0D THL THRTL POSITION(V)
         ## [07] 0x15 INJ INJECTION TIME(ms)
-        ## [08] 0x16 IGN IGN TIMING(BTDC)
+        ## [08] 0x16 TIM IGN TIMING(BTDC)
         ## [09] 0x17 IDL IACV - AAC / V( %)  (IDLE)
         ## [10] 0x1A AFS A/F ALPHA - LH
         ## [11] 0x1C AFL A/F ALPHA - LH(SELF - LEARN
@@ -127,21 +127,22 @@ class ReadStream(threading.Thread):
     def convertValues (readvalues):
         self.integrity = False  # Until all registers have been processed, data is marked invalid
 
-        RPM_value = int(round((readvalues[0] * 12.5),2))
-        print (RPM_value)
-        self.MAF_Value = readvalues[1] * 5
-        self.TMP_Value = readvalues[2] - 50
-        self.O2S_Value = readvalues[3] * 10
-        self.KMH_Value = int(round (readvalues[4] * 2))
-        self.BAT_Value = round(((readvalues[5] * 80) / 1000),1)
-        self.THL_Value = readvalues[6] * 20
-        self.INJ_Value = readvalues[7] / 100
-        self.IGN_Value = 110 - readvalues[8]
-        self.IDL_Value = readvalues[9] / 2
-        self.AFS_Value = readvalues[10]
-        self.AFL_Value = readvalues[11]
-        self.DR0_Value = readvalues[12]
-        self.DR1_Value = readvalues[13]
+        D['RPM'] = int(round((readvalues[0] * 12.5),2))
+        D['MAF'] = readvalues[1] * 5
+        D['TMP'] = readvalues[2] - 50
+        D['OXY'] = readvalues[3] * 10
+        D['KMH'] = int(round (readvalues[4] * 2))
+        D['BAT'] = round(((readvalues[5] * 80) / 1000),1)
+        D['THL'] = readvalues[6] * 20
+        D['INJ'] = readvalues[7] / 100
+        D['TIM'] = 110 - readvalues[8]
+        D['IDL'] = readvalues[9] / 2
+        D['AFS'] = readvalues[10]
+        D['AFL'] = readvalues[11]
+        D['DR0'] = readvalues[12]
+        D['DR1'] = readvalues[13]
+
+        print (D['RPM'] )
 
         self.integrity = True
         return true
