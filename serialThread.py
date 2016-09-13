@@ -34,20 +34,22 @@ class ReadStream(threading.Thread):
 
         # D es una variable global de tipo diccionario
 
-        D['RPM'] = 0
-        D['MAF'] = 0
-        D['TMP'] = 0
-        D['OXY'] = 0
-        D['KMH'] = 0
-        D['BAT'] = 0
-        D['THL'] = 0
-        D['INJ'] = 0
-        D['TIM'] = 0
-        D['IDL'] = 0
-        D['AFS'] = 0
-        D['AFL'] = 0
-        D['DR0'] = 0
-        D['DR1'] = 0
+        D = dict()
+
+        D = {'RPM': 0,
+             'MAF': 0,
+             'TMP': 0,
+             'OXY': 0,
+             'KMH': 0,
+             'BAT': 0,
+             'THL': 0,
+             'INJ': 0,
+             'TIM': 0,
+             'IDL': 0,
+             'AFS': 0,
+             'AFL': 0,
+             'DR0': 0,
+             'DR1': 0}
 
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
@@ -119,15 +121,13 @@ class ReadStream(threading.Thread):
                 #convertValues (dataList)
                 D['RPM'] = int(round((dataList[0] * 12.5), 2))
                 print(D['RPM'])
-
-
             else:
                 pass
 
     def convertValues (readvalues):
         self.integrity = False  # Until all registers have been processed, data is marked invalid
 
-        D['RPM'] = int(round((readvalues[0] * 12.5),2))
+        self.D['RPM'] = int(round((readvalues[0] * 12.5),2))
         D['MAF'] = readvalues[1] * 5
         D['TMP'] = readvalues[2] - 50
         D['OXY'] = readvalues[3] * 10
@@ -147,30 +147,8 @@ class ReadStream(threading.Thread):
         self.integrity = True
         return true
 
-
-#    def convertToKMH(self,inputData):
-#        return int(round (inputData * 2))
-
-#    def convertToRev(self,inputData):
-#        return int(round((inputData * 12.5),2))
-
-#    def convertToTemp(self,inputData):
-#        return inputData - 50
-
-#    def convertToBattery(self,inputData):
-#        return round(((inputData * 80) / 1000),1)
-
-#    def convertToMAF(self,inputData):
-#       return inputData * 5
-
-#    def convertToAAC(self,inputData):
-#        return inputData / 2
-
-#    def convertToInjection(self,inputData):
-#        return inputData / 100
-
-#    def convertToTiming(self,inputData):
-#        return 110 - inputData
-
     def getIntegrity(self):
-        return self.integrity
+        return self.integrity;
+
+    def getData (self):
+        return self.D;
