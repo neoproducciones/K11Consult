@@ -46,9 +46,7 @@ D = {'RPM': 0,
 #while True:
 
     #if (incomingData.getIntegrity):
-
         #print (RPM_Value)
-
 
 time.sleep(60)
 
