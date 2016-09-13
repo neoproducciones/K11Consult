@@ -36,7 +36,7 @@ class ReadStream(threading.Thread):
 
         self.D = dict()
 
-        self.D = {'RPM': 0,
+        self.D = {'RPM': 700,
              'MAF': 0,
              'TMP': 0,
              'OXY': 0,
