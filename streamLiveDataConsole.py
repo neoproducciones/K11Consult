@@ -32,7 +32,7 @@ while True:
 
     #if (incomingData.getIntegrity):
     D2 = incomingData.getData()
-    print (D2['THL'])
+    print (D2['RPM'])
 
 time.sleep(60)
 

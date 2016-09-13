@@ -34,9 +34,9 @@ class ReadStream(threading.Thread):
 
         # D es una variable global de tipo diccionario
 
-        D = dict()
+        self.D = dict()
 
-        D = {'RPM': 0,
+        self.D = {'RPM': 0,
              'MAF': 0,
              'TMP': 0,
              'OXY': 0,
@@ -119,33 +119,31 @@ class ReadStream(threading.Thread):
 
                 dataList = map(ord,incomingData)
                 #convertValues (dataList)
-                D['RPM'] = int(round((dataList[0] * 12.5), 2))
-                print(D['RPM'])
+                self.D['RPM'] = int(round((dataList[0] * 12.5), 2))
+
             else:
                 pass
 
-    def convertValues (readvalues):
+    def convertValues (self, readvalues):
         self.integrity = False  # Until all registers have been processed, data is marked invalid
 
         self.D['RPM'] = int(round((readvalues[0] * 12.5),2))
-        D['MAF'] = readvalues[1] * 5
-        D['TMP'] = readvalues[2] - 50
-        D['OXY'] = readvalues[3] * 10
-        D['KMH'] = int(round (readvalues[4] * 2))
-        D['BAT'] = round(((readvalues[5] * 80) / 1000),1)
-        D['THL'] = readvalues[6] * 20
-        D['INJ'] = readvalues[7] / 100
-        D['TIM'] = 110 - readvalues[8]
-        D['IDL'] = readvalues[9] / 2
-        D['AFS'] = readvalues[10]
-        D['AFL'] = readvalues[11]
-        D['DR0'] = readvalues[12]
-        D['DR1'] = readvalues[13]
-
-        print (D['RPM'] )
+        self.D['MAF'] = readvalues[1] * 5
+        self.D['TMP'] = readvalues[2] - 50
+        self.D['OXY'] = readvalues[3] * 10
+        self.D['KMH'] = int(round (readvalues[4] * 2))
+        self.D['BAT'] = round(((readvalues[5] * 80) / 1000),1)
+        self.D['THL'] = readvalues[6] * 20
+        self.D['INJ'] = readvalues[7] / 100
+        self.D['TIM'] = 110 - readvalues[8]
+        self.D['IDL'] = readvalues[9] / 2
+        self.D['AFS'] = readvalues[10]
+        self.D['AFL'] = readvalues[11]
+        self.D['DR0'] = readvalues[12]
+        self.D['DR1'] = readvalues[13]
 
         self.integrity = True
-        return true
+        return True
 
     def getIntegrity(self):
         return self.integrity;
