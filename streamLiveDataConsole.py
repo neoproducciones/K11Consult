@@ -25,7 +25,7 @@ import time
 PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 incomingData = serialThread.ReadStream(PORT,False)
 
-D = dict()
+global D
 
 D = {'RPM': 0,
      'MAF': 0,
