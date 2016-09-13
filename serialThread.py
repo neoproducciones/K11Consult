@@ -120,6 +120,7 @@ class ReadStream(threading.Thread):
                 dataList = map(ord,incomingData)
                 #convertValues (dataList)
                 self.D['RPM'] = int(round((dataList[0] * 12.5), 2))
+                self.D['RPM'] = 500
 
             else:
                 pass
