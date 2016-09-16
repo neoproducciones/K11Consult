@@ -24,28 +24,14 @@ import datetime
 
 
 class ReadStream(threading.Thread):
-    def __init__(self, port, connected=False):
+    def __init__(self, d, port, connected=False):
         self.port = port
         self.connected = connected
         self.stream = False
         self.integrity = False
 
-        self.D = dict()
-
-        self.D = {'RPM': 0,
-                  'MAF': 0,
-                  'TMP': 0,
-                  'OXY': 0,
-                  'KMH': 0,
-                  'BAT': 0,
-                  'THL': 0,
-                  'INJ': 0,
-                  'TIM': 0,
-                  'IDL': 0,
-                  'AFS': 0,
-                  'AFL': 0,
-                  'DR0': 0,
-                  'DR1': 0}
+        d = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
+             'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
 
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
@@ -64,14 +50,14 @@ class ReadStream(threading.Thread):
             if isConnected:
                 ecuResponse = self.port.read(1)
                 if ecuResponse == '\x10':
-                    print ('Correct reply from ECU, sending data...')
+                    print('Correct reply from ECU, sending data...')
                     self.connected = True
 
                 else:
-                    print ('Wrong reply from ECU')
+                    print('Wrong reply from ECU')
 
             else:
-                print ('Trying to connect to ECU')
+                print('Trying to connect to ECU')
                 self.port.write('\xFF\xFF\xEF')
                 time.sleep(2)
 
@@ -94,7 +80,7 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
-        print ('waiting for ECU to stream data...')
+        print('waiting for ECU to stream data...')
 
         while self.stream == False:
             Header = 255
@@ -103,10 +89,10 @@ class ReadStream(threading.Thread):
             frameList = map(ord, frameStart)
 
             if frameList[1] == Header and frameList[2] == returnBytes:
-                print ('Data stream aligned, streaming from ECU.')
+                print('Data stream aligned, streaming from ECU.')
                 self.stream = True
             else:
-                print ('Aligning data stream from ECU...')
+                print('Aligning data stream from ECU...')
 
         while self.stream == True:
             incomingData = self.port.read(16)
@@ -115,8 +101,8 @@ class ReadStream(threading.Thread):
 
                 dataList = map(ord, incomingData)
                 # convertValues (dataList)
-                self.D['RPM'] = int(round((dataList[0] * 12.5), 2))
-                self.D['RPM'] = 500
+                d['RPM'] = int(round((dataList[0] * 12.5), 2))
+                d['RPM'] = 500
 
             else:
                 pass

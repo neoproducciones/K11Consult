@@ -23,16 +23,14 @@ import serialThread
 import time
 
 PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
-incomingData = serialThread.ReadStream(PORT,False)
+D = dict()
+incomingData = serialThread.ReadStream(D, PORT, False)
 
-
-D2 = dict()
 
 while True:
 
     #if (incomingData.getIntegrity):
-    D2 = incomingData.getData()
-    print (D2['RPM'])
+    print(D['RPM'])
 
 time.sleep(60)
 
