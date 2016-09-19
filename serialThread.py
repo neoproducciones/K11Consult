@@ -29,11 +29,6 @@ class ReadStream(threading.Thread):
         self.connected = connected
         self.stream = False
         self.integrity = False
-        self.d = dict
-        self.d = data
-
-        self.d = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
-                  'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
 
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
@@ -82,7 +77,7 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
-        self.d['RPM'] = 300
+        data['RPM'] = 300
         print('waiting for ECU to stream data...')
 
         while self.stream == False:
