@@ -84,7 +84,7 @@ class ReadStream(threading.Thread):
 
         self.d['RPM'] = 300
         print('waiting for ECU to stream data...')
-        print(d['RPM'])
+        print(self.d['RPM'])
 
         while self.stream == False:
             Header = 255
