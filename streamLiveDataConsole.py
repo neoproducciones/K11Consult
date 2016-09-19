@@ -34,6 +34,9 @@ while True:
     #if (incomingData.getIntegrity):
     print(D['RPM'])
     time.sleep(0.01)
+
+    #Usar API 'multiprocessing'
+
 time.sleep(1)
 
 PORT.write('\x30')
