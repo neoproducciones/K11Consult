@@ -24,7 +24,7 @@ import datetime
 
 
 class ReadStream(threading.Thread):
-    def __init__(self, data, port, connected=True):
+    def __init__(self, port, connected=True):
         self.port = port
         self.connected = connected
         self.stream = False
@@ -77,7 +77,8 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
-        data['RPM'] = 300
+        global D
+        D['RPM'] = 300
         print('waiting for ECU to stream data...')
 
         while self.stream == False:
