@@ -82,7 +82,9 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
+        self.d['RPM'] = 300
         print('waiting for ECU to stream data...')
+        print(d['RPM'])
 
         while self.stream == False:
             Header = 255
