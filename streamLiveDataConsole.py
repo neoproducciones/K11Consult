@@ -33,8 +33,8 @@ while True:
 
     #if (incomingData.getIntegrity):
     print(D['RPM'])
-
-time.sleep(60)
+    time.sleep(0.01)
+time.sleep(1)
 
 PORT.write('\x30')
 PORT.flushInput()
