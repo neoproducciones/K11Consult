@@ -24,7 +24,7 @@ import time
 
 PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 D = dict()
-incomingData = serialThread.ReadStream(D, PORT, False)
+incomingData = serialThread.ReadStream(D, PORT, True)
 
 
 while True:

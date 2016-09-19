@@ -24,14 +24,16 @@ import datetime
 
 
 class ReadStream(threading.Thread):
-    def __init__(self, d, port, connected=False):
+    def __init__(self, data, port, connected=False):
         self.port = port
         self.connected = connected
         self.stream = False
         self.integrity = False
+        self.d = dict
+        self.d = data
 
-        d = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
-             'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
+        self.d = {'RPM': 300, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
+                  'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
 
         self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
