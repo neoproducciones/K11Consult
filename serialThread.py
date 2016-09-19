@@ -24,7 +24,7 @@ import datetime
 
 
 class ReadStream(threading.Thread):
-    def __init__(self, data, port, connected=False):
+    def __init__(self, data, port, connected=True):
         self.port = port
         self.connected = connected
         self.stream = False
