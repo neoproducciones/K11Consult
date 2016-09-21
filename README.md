@@ -12,3 +12,5 @@ The protocol reads and writes hex via a serial connection, reading in realtime t
 The script will be essentially in three parts; a thread that interacts with the ECU and make data conversion, a second thread logging data to a sqlite database and a third one sending the read data to a LCD display.
 
 If you are interested in the project, please, contact me :)
+
+NOTE: Now editing in Cloud9
