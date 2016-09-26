@@ -22,7 +22,8 @@ import serial
 import serialThread
 import time
 
-PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
+#PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
+PORT = ""
 D = dict()
 incomingData = serialThread.ReadStream(PORT, True)
 
@@ -39,7 +40,7 @@ while True:
 
 time.sleep(1)
 
-PORT.write('\x30')
-PORT.flushInput()
+#PORT.write('\x30')
+#PORT.flushInput()
 sys.exit()
 
