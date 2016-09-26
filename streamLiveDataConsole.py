@@ -33,7 +33,7 @@ D = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ'
 while True:
 
     #if (incomingData.getIntegrity):
-    print(D['RPM'])
+    #print(D['RPM'])
     time.sleep(0.01)
 
     #Usar API 'multiprocessing'

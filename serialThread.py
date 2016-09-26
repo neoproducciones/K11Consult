@@ -60,8 +60,8 @@ class ReadStream(threading.Thread):
                 self.port.write('\xFF\xFF\xEF')
                 time.sleep(2)
 
-        self.port.write(
-            '\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0B\x5A\x0C\x5A\x0D\x5A\x15\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x1E\x5A\x1F\xF0')
+        #self.port.write(
+        #    '\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0B\x5A\x0C\x5A\x0D\x5A\x15\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x1E\x5A\x1F\xF0')
 
         ####### Sensors to read:
         ## [00] 0x01 RPM
@@ -101,8 +101,8 @@ class ReadStream(threading.Thread):
 
                 dataList = map(ord, incomingData)
                 # convertValues (dataList)
-                D['RPM'] = int(round((dataList[0] * 12.5), 2))
                 D['RPM'] = 500
+                print(D['RPM'])
 
             else:
                 pass
