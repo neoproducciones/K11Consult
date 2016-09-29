@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# main.py
+# dbThread.py
 
-#Copyright (C) 2015 Eilidh Fridlington http://eilidh.fridlington.com
+#Copyright (C) 2016 Javier Nuevo - www.facebook.com/neoproducciones
 
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -16,22 +16,9 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-import sys, time#, os, serial
-import memdata
-import serialThread
 
-#PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
-PORT = ""
-memdata.init()
-incomingData = serialThread.ReadStream(PORT, True)
-
-print("Esperando al hijo")
-j = 0
-while j<10000:
-    print(memdata.D['RPM'])
-    j = j+1
-
-#PORT.write('\x30')
-#PORT.flushInput()
-sys.exit()
+import datetime, time, math
+import threading
+import sqlite3
+import peewee
 
