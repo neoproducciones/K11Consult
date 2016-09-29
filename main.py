@@ -27,8 +27,7 @@ incomingData = serialThread.ReadStream(PORT, True)
 
 print("Esperando al hijo")
 j = 0
-while j<100:
-    #if (incomingData.getIntegrity):
+while j<10000:
     print(memdata.D['RPM'])
     j = j+1
 

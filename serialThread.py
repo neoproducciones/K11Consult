@@ -75,8 +75,8 @@ class ReadStream(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
-        memdata.D['RPM'] = 300
         print('waiting for ECU to stream data...')
+        memdata.D['RPM'] = 300
 
         while self.stream == False:
             Header = 255
@@ -91,20 +91,18 @@ class ReadStream(threading.Thread):
                 print('Aligning data stream from ECU...')
 
         while self.stream == True:
-            incomingData = self.port.read(16)
-            if incomingData:
+            incoming_data = self.port.read(16)
+            if incoming_data:
                 # We have a full line we could store into a file here
 
-                dataList = map(ord, incomingData)
-                # convertValues (dataList)
-                memdata.D['RPM'] = 500
-                print(memdata.D['RPM'])
+                datalist = map(ord, incoming_data)
+                self.convertvalues(datalist)
 
             else:
                 pass
 
-    def convertValues(self, readvalues):
-        self.integrity = False  # Until all registers have been processed, data is marked invalid
+    def convertvalues(self, readvalues):
+        memdata.integrity = False  # Until all registers have been processed, data is marked invalid
 
         memdata.D['RPM'] = int(round((readvalues[0] * 12.5), 2))
         memdata.D['MAF'] = readvalues[1] * 5
@@ -121,8 +119,6 @@ class ReadStream(threading.Thread):
         memdata.D['DR0'] = readvalues[12]
         memdata.D['DR1'] = readvalues[13]
 
-        self.integrity = True
+        memdata.integrity = True
         return True
 
-    def getIntegrity(self):
-        return self.integrity
