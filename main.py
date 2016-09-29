@@ -19,6 +19,7 @@
 import sys, time#, os, serial
 import memdata
 import serialThread
+import dbThread
 
 #PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 PORT = ""
@@ -30,6 +31,8 @@ j = 0
 while j<10000:
     print(memdata.D['RPM'])
     j = j+1
+
+dbThread.activar_log()
 
 #PORT.write('\x30')
 #PORT.flushInput()

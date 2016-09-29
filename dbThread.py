@@ -21,4 +21,47 @@ import datetime, time, math
 import threading
 import sqlite3
 import peewee
+import memdata
 
+
+def existe_tabla_logs():
+    return False
+
+
+def crear_tabla_logs():
+    return True
+
+
+def crear_sesion():
+    clave = -1
+    clave = 342
+    return clave
+
+
+def escribe_tupla (sesion, diccionario):
+    print ("-dentro de escribe_tupla")
+    return True
+
+
+def cerrar_sesion (sesion):
+    return True
+
+
+def activar_log():
+    print ("Activando log")
+    if not existe_tabla_logs():
+        print ("Creando tabla de logs")
+        crear_tabla_logs()
+    print ("Creando sesion")
+    id_sesion = crear_sesion()
+
+    if id_sesion > 0:
+        print ("Escribiendo datos")
+        while memdata.loguear:
+            escribe_tupla (id_sesion, memdata.D)
+            time.delay(memdata.loguear_ms)
+        print ("Cerrando sesion")
+        cerrar_sesion(id_sesion)
+        print ("Sesion cerrada")
+    else:
+        print ("Error creando sesion")
