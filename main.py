@@ -16,29 +16,21 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-import os
-import sys
-import serial
+import sys, time#, os, serial
+import memdata
 import serialThread
-import time
 
 #PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 PORT = ""
-D = dict()
+memdata.init()
 incomingData = serialThread.ReadStream(PORT, True)
 
-D = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
-     'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
-
-while True:
-
+print("Esperando al hijo")
+j = 0
+while j<100:
     #if (incomingData.getIntegrity):
-    #print(D['RPM'])
-    time.sleep(0.01)
-
-    #Usar API 'multiprocessing'
-
-time.sleep(1)
+    print(memdata.D['RPM'])
+    j = j+1
 
 #PORT.write('\x30')
 #PORT.flushInput()
