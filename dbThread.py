@@ -20,9 +20,11 @@
 import datetime, time, math
 import threading
 import sqlite3
-import peewee
+from peewee import *
 import memdata
 
+db = SqliteDatabase('database.s3db')
+# sdb is the database containing all sessions table
 
 def existe_tabla_logs():
     return False
