@@ -26,7 +26,7 @@ import memdata
 db = SqliteDatabase('database.s3db')
 # sdb is the database containing all sessions table
 
-class Sessions(Model):
+class Session(Model):
     id = BigIntegerField(unique=True)
     start_time = DateTimeField()
     end_time = DateTimeField()
@@ -38,10 +38,25 @@ class Sessions(Model):
 
 class DataRead(Model):
     id = BigIntegerField(unique=True)
-    session_id = ForeignKeyField(Sessions, related_name='readings')
+    session_id = ForeignKeyField(Session, related_name='readings')
     reading_num = BigIntegerField()
     timestamp = DateTimeField()
-    
+
+    rpm = SmallIntegerField()
+    maf = SmallIntegerField()
+    tmp = SmallIntegerField()
+    oxy = SmallIntegerField()
+    kmh = SmallIntegerField()
+    bat = FloatField()
+    thl = SmallIntegerField()
+    inj = FloatField()
+    tim = SmallIntegerField()
+    idl = FloatField()
+    afs = SmallIntegerField()
+    afl = SmallIntegerField()
+    dr0 = SmallIntegerField()
+    dr1 = SmallIntegerField()
+
     class Meta:
         database = db # This model uses the "people.db" database.
 
