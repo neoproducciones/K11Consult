@@ -26,6 +26,27 @@ import memdata
 db = SqliteDatabase('database.s3db')
 # sdb is the database containing all sessions table
 
+class Sessions(Model):
+    id = BigIntegerField(unique=True)
+    start_time = DateTimeField()
+    end_time = DateTimeField()
+    closed = BooleanField()
+    log_delay = IntegerField()
+    class Meta:
+        database = db # This model uses the "people.db" database.
+
+
+class DataRead(Model):
+    id = BigIntegerField(unique=True)
+    session_id = ForeignKeyField(Sessions, related_name='readings')
+    reading_num = BigIntegerField()
+    timestamp = DateTimeField()
+    
+    class Meta:
+        database = db # This model uses the "people.db" database.
+
+
+
 def existe_tabla_logs():
     return False
 
@@ -50,20 +71,25 @@ def cerrar_sesion (sesion):
 
 
 def activar_log():
-    print ("Activando log")
+    print ("Conectando a base de datos")
+    if not db.connect():
+        print("Error conectando a base de datos")
+        return False
+    print("Base de datos conectada")
+    print("Activando log")
     if not existe_tabla_logs():
-        print ("Creando tabla de logs")
+        print("Creando tabla de logs")
         crear_tabla_logs()
-    print ("Creando sesion")
+    print("Creando sesion")
     id_sesion = crear_sesion()
 
     if id_sesion > 0:
-        print ("Escribiendo datos")
+        print("Escribiendo datos")
         while memdata.loguear:
             escribe_tupla (id_sesion, memdata.D)
             time.delay(memdata.loguear_ms)
-        print ("Cerrando sesion")
+        print("Cerrando sesion")
         cerrar_sesion(id_sesion)
-        print ("Sesion cerrada")
+        print("Sesion cerrada")
     else:
-        print ("Error creando sesion")
+        print("Error creando sesion")
