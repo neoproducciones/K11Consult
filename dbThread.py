@@ -67,8 +67,9 @@ class DataRead(Model):
 
 def start_session():
     db.create_tables([Session, DataRead], safe=True)  # Solo crea las tablas si no existen
-    leer ultimo registro de tabla logs
-    añadir entrada en tabla logs
+    #  leer ultimo registro de tabla logs
+    last_session = Session.select().order_by(Session.id.desc()).get()
+    #  añadir entrada en tabla logs
     clave = -1
     clave = 342
     return clave
