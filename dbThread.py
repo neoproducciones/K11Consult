@@ -24,7 +24,8 @@ from peewee import *
 import memdata
 
 db = SqliteDatabase('database.s3db')
-# sdb is the database containing all sessions table
+# db is the database containing all data
+
 
 class Session(Model):
     id = BigIntegerField(unique=True)
@@ -32,8 +33,9 @@ class Session(Model):
     end_time = DateTimeField()
     closed = BooleanField()
     log_delay = IntegerField()
+
     class Meta:
-        database = db # This model uses the "people.db" database.
+        database = db
 
 
 class DataRead(Model):
@@ -58,19 +60,15 @@ class DataRead(Model):
     dr1 = SmallIntegerField()
 
     class Meta:
-        database = db # This model uses the "people.db" database.
+        database = db
 
 
 
-def existe_tabla_logs():
-    return False
 
-
-def crear_tabla_logs():
-    return True
-
-
-def crear_sesion():
+def start_session():
+    db.create_tables([Session, DataRead], safe=True)  # Solo crea las tablas si no existen
+    leer ultimo registro de tabla logs
+    añadir entrada en tabla logs
     clave = -1
     clave = 342
     return clave
@@ -92,19 +90,16 @@ def activar_log():
         return False
     print("Base de datos conectada")
     print("Activando log")
-    if not existe_tabla_logs():
-        print("Creando tabla de logs")
-        crear_tabla_logs()
-    print("Creando sesion")
-    id_sesion = crear_sesion()
 
-    if id_sesion > 0:
+    id_session = start_session()
+
+    if id_session > 0:
         print("Escribiendo datos")
         while memdata.loguear:
-            escribe_tupla (id_sesion, memdata.D)
+            escribe_tupla (id_session, memdata.D)
             time.delay(memdata.loguear_ms)
         print("Cerrando sesion")
-        cerrar_sesion(id_sesion)
+        cerrar_sesion(id_session)
         print("Sesion cerrada")
     else:
         print("Error creando sesion")
