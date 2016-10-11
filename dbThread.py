@@ -67,12 +67,23 @@ class DataRead(Model):
 
 def start_session():
     db.create_tables([Session, DataRead], safe=True)  # Solo crea las tablas si no existen
+    #  añadir entrada en tabla logs (el id se autoincrementa)
+    new_session = Session(id=1, start_time='2016-10-10', end_time='', closed=False, log_delay=memdata.loguear_ms)
+
+    id = BigIntegerField(unique=True)
+    start_time = DateTimeField()
+    end_time = DateTimeField()
+    closed = BooleanField()
+    log_delay = IntegerField()
+
+
+    new_session.save()
+
     #  leer ultimo registro de tabla logs
-    last_session = Session.select().order_by(Session.id.desc()).get()
-    #  añadir entrada en tabla logs
+    session_id = Session.select().order_by(Session.id.desc()).get()
     clave = -1
     clave = 342
-    return clave
+    return session_id
 
 
 def escribe_tupla (sesion, diccionario):
