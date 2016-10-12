@@ -32,8 +32,6 @@ while j<10000:
     print(memdata.D['RPM'])
     j = j+1
 
-dbThread.activar_log()
-
 #PORT.write('\x30')
 #PORT.flushInput()
 sys.exit()
