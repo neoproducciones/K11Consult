@@ -28,7 +28,7 @@ db = SqliteDatabase('database.s3db')
 
 
 class Session(Model):
-    id = BigIntegerField(unique=True)
+    #  id = BigIntegerField(unique=True) it's automatically added by peewee
     start_time = DateTimeField()
     end_time = DateTimeField()
     closed = BooleanField()
@@ -39,7 +39,7 @@ class Session(Model):
 
 
 class DataRead(Model):
-    id = BigIntegerField(unique=True)
+    #  id = BigIntegerField(unique=True) it's automatically added by peewee
     session_id = ForeignKeyField(Session, related_name='readings')
     reading_num = BigIntegerField()
     timestamp = DateTimeField()
@@ -63,27 +63,15 @@ class DataRead(Model):
         database = db
 
 
-
-
 def start_session():
     db.create_tables([Session, DataRead], safe=True)  # Solo crea las tablas si no existen
-    #  añadir entrada en tabla logs (el id se autoincrementa)
-    new_session = Session(id=1, start_time='2016-10-10', end_time='', closed=False, log_delay=memdata.loguear_ms)
-
-    id = BigIntegerField(unique=True)
-    start_time = DateTimeField()
-    end_time = DateTimeField()
-    closed = BooleanField()
-    log_delay = IntegerField()
-
-
+    #  add entry to logs table (self incremental id)
+    new_session = Session(start_time=datetime.datetime.now(), end_time='', closed=False, log_delay=memdata.loguear_ms)
     new_session.save()
 
-    #  leer ultimo registro de tabla logs
-    session_id = Session.select().order_by(Session.id.desc()).get()
-    clave = -1
-    clave = 342
-    return session_id
+    #  leer ultimo registro de tabla logs - No es necesario
+    #  session_id = Session.select().order_by(Session.id.desc()).get()
+    return new_session.id
 
 
 def escribe_tupla (sesion, diccionario):
@@ -92,6 +80,8 @@ def escribe_tupla (sesion, diccionario):
 
 
 def cerrar_sesion (sesion):
+    query = Session.update(end_time=datetime.datetime.now(), closed=True).where(Session.id == sesion)
+    query.execute()
     return True
 
 
