@@ -36,7 +36,7 @@ class visThread(threading.Thread):
 
         Segunda pantalla
 
-        
+
 
        - memdata.D['RPM'] = int(round((readvalues[0] * 12.5), 2))
        - memdata.D['MAF'] = readvalues[1] * 5

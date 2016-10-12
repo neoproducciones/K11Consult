@@ -1,4 +1,4 @@
-/*****************************************
+/*********************************
  * name: I2C LCD2004
  * function: You should now see your I2C LCD2004 display "Hello,world!","IIC/I2C LCD2004"
  * "20 cols, 4 rows","www.sunfounder.com"
