@@ -18,6 +18,7 @@ def init():
 
     loguear = False
     loguear_ms = 500
+    vis_ms = 500
 
     print("Variables inicializadas")
 

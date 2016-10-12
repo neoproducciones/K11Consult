@@ -1,21 +1,9 @@
 #!/usr/bin/python
 # dbThread.py
 
-#Copyright (C) 2016 Javier Nuevo - www.facebook.com/neoproducciones
+# Copyright (C) 2016 Javier Nuevo - www.facebook.com/neoproducciones
 
-#This program is free software: you can redistribute it and/or modify
-#it under the terms of the GNU General Public License as published by
-#the Free Software Foundation, either version 3 of the License, or
-#(at your option) any later version.
-
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
-
-#You should have received a copy of the GNU General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>
-
+# TODO:   Convert into a thread
 
 import datetime, time, math
 import threading
@@ -33,6 +21,7 @@ class Session(Model):
     end_time = DateTimeField()
     closed = BooleanField()
     log_delay = IntegerField()
+    last_entry = BigIntegerField()
 
     class Meta:
         database = db
@@ -41,7 +30,7 @@ class Session(Model):
 class DataRead(Model):
     #  id = BigIntegerField(unique=True) it's automatically added by peewee
     session_id = ForeignKeyField(Session, related_name='readings')
-    reading_num = BigIntegerField()
+    entry = BigIntegerField()
     timestamp = DateTimeField()
 
     rpm = SmallIntegerField()
@@ -74,18 +63,38 @@ def start_session():
     return new_session.id
 
 
-def escribe_tupla (sesion, diccionario):
+def write_values (session, d, entry):
     print ("-dentro de escribe_tupla")
+    #  data = DataRead (session_id=session, entry=entry, timestamp=datetime.datetime.now())
+    #  We better do not record datetime due to efficiency reasons
+    data = DataRead (session_id=session, entry=entry)
+
+    data.rpm = d.RPM
+    data.maf = d.MAF
+    data.tmp = d.TMP
+    data.oxy = d.OXY
+    data.kmh = d.KMH
+    data.bat = d.BAT
+    data.thl = d.THL
+    data.inj = d.INJ
+    data.tim = d.TIM
+    data.idl = d.IDL
+    data.afs = d.AFS
+    data.afl = d.AFL
+    data.dr0 = d.DR0
+    data.dr1 = d.DR1
+
+    data.create()
     return True
 
 
-def cerrar_sesion (sesion):
-    query = Session.update(end_time=datetime.datetime.now(), closed=True).where(Session.id == sesion)
+def close_session(session, entry):
+    query = Session.update(end_time=datetime.datetime.now(), closed=True, last_entry=entry).where(Session.id == session)
     query.execute()
     return True
 
 
-def activar_log():
+def logging():
     print ("Conectando a base de datos")
     if not db.connect():
         print("Error conectando a base de datos")
@@ -97,11 +106,13 @@ def activar_log():
 
     if id_session > 0:
         print("Escribiendo datos")
+        entry = 0
         while memdata.loguear:
-            escribe_tupla (id_session, memdata.D)
+            write_values(id_session, entry, memdata.D)
+            entry = entry + 1
             time.delay(memdata.loguear_ms)
         print("Cerrando sesion")
-        cerrar_sesion(id_session)
+        cerrar_sesion(id_session, entry)
         print("Sesion cerrada")
     else:
         print("Error creando sesion")
