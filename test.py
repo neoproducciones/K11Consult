@@ -11,7 +11,7 @@ print ("Hola")
 #  Usamos numeracion fisica de los pines
 GPIO.setmode(GPIO.BOARD)
 #  Configuramos cada uno de los pines
-GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
