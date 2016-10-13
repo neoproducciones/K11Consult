@@ -28,15 +28,15 @@ while True:
     else:
         print("")
 
-    clkState = not GPIO.input(clk)
-    dtState = not GPIO.input(dt)
+    clkState = GPIO.input(clk)
+    dtState = GPIO.input(dt)
     if clkState != clkLastState:
         if dtState != clkState:
-            counter += 1
-            print("Derecha")
-        else:
             counter -= 1
             print("Izquieda")
+        else:
+            counter += 1
+            print("Derecha")
         print counter
     clkLastState = clkState
     sleep(0.01)
