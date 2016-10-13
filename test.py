@@ -16,7 +16,5 @@ GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 while True:
-    if GPIO.input(12):
+    if not GPIO.input(12):
         print("Pulsado")
-    else:
-        print("no pulsado boton")
