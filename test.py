@@ -17,6 +17,6 @@ GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 while True:
     if GPIO.input(12):
-        print("Pin 12 estado ALTO")
+        print("")
     else:
         print("Pulsado boton")
