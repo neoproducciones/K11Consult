@@ -33,7 +33,7 @@ while True:
     if clkState != clkLastState:
         if dtState != clkState:
             counter -= 1
-            print("Izquieda")
+            print("Izquierda")
         else:
             counter += 1
             print("Derecha")
