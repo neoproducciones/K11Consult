@@ -8,7 +8,7 @@ print ("Hola")
 #  + - white - pin
 #  GND - black - pin #9 (ground)
 
-#  Utilizamos la numeración física de los pines
+#  Usamos numeracion fisica de los pines
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 while True:
