@@ -39,11 +39,13 @@ while True:
     if clkState != clkLastState:
         lcd.printline(linea_actual, '-')
         if dtState != clkState:
+            print "Izquierda"
             if linea_actual > 0:
                 linea_actual -= 1
             else:
                 linea_actual = 3
         else:
+            print "Derecha"
             if linea_actual < 3:
                 linea_actual += 1
             else:
@@ -51,5 +53,4 @@ while True:
         lcd.printline(linea_actual, '>')
         print (linea_actual)
     clkLastState = clkState
-    #  sleep(0.01)
-    sleep(0.02)
+    sleep(0.01)
