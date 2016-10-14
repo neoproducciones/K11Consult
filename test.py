@@ -37,7 +37,7 @@ while True:
     clkState = GPIO.input(clk)
     dtState = GPIO.input(dt)
     if clkState != clkLastState:
-        lcd.printline(linea_actual, '-')
+        lcd.printline(linea_actual, ' ')
         if dtState != clkState:
             print "Izquierda"
             if linea_actual > 0:
@@ -54,3 +54,4 @@ while True:
         print (linea_actual)
     clkLastState = clkState
     sleep(0.01)
+    sleep(0.005)
