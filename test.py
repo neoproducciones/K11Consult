@@ -29,6 +29,7 @@ GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 clkLastState = GPIO.input(clk)
 linea_actual = 0
+lectura_falsa = False
 
 while True:
     if not GPIO.input(sw):
@@ -37,20 +38,20 @@ while True:
     clkState = GPIO.input(clk)
     dtState = GPIO.input(dt)
     if clkState != clkLastState:
-        lcd.printline(linea_actual, ' ')
         if dtState != clkState:
+            lcd.printline(linea_actual, ' ')
             print "Izquierda"
             if linea_actual > 0:
                 linea_actual -= 1
             else:
                 linea_actual = 3
+            lcd.printline(linea_actual, '>')
         else:
             print "Derecha"
             if linea_actual < 3:
                 linea_actual += 1
             else:
                 linea_actual = 0
-        lcd.printline(linea_actual, '>')
         print (linea_actual)
     clkLastState = clkState
     #  sleep(0.01)
