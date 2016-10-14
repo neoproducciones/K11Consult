@@ -7,7 +7,7 @@ class i2c_device:
         self.addr = addr
         # self.bus = smbus.SMBus(port)
         self.bus = smbus.SMBus(27)
-        # primero en decimal
+        # primero en decimalll
 
         # Write a single command
 
