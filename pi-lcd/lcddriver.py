@@ -3,8 +3,8 @@ from time import *
 
 # LCD Address
 # ADDRESS = 0x3f
-ADDRESS = 0x1b  # NUMERO 27, la direccion leida
-# ADDRESS = 27
+# ADDRESS = 0x1b  # NUMERO 27, la direccion leida
+ADDRESS = 27
 
 
 # commands
