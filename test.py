@@ -22,6 +22,8 @@ GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 clkLastState = GPIO.input(clk)
 counter = 0
 
+
+
 while True:
     if not GPIO.input(sw):
         print("Pulsado")
