@@ -33,8 +33,6 @@ linea_actual = 0
 while True:
     if not GPIO.input(sw):
         print("Pulsado")
-    else:
-        print("")
 
     clkState = GPIO.input(clk)
     dtState = GPIO.input(dt)
