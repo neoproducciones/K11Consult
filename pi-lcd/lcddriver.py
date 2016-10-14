@@ -3,7 +3,7 @@ from time import *
 
 # LCD Address
 ADDRESS = 0x3f
-ADDRESS = 0x1B  # NUMERO 27, la direccion leida
+ADDRESS = 0x1b  # NUMERO 27, la direccion leida
 
 # commands
 LCD_CLEARDISPLAY = 0x01
