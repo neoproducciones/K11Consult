@@ -51,5 +51,6 @@ while True:
             else:
                 linea_actual = 0
         lcd.printline(linea_actual, '>')
+        print (linea_actual)
     clkLastState = clkState
     sleep(0.01)
