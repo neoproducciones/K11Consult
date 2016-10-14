@@ -5,7 +5,8 @@ from time import *
 class i2c_device:
     def __init__(self, addr, port=1):
         self.addr = addr
-        self.bus = smbus.SMBus(port)
+        # self.bus = smbus.SMBus(port)
+        self.bus = smbus.SMBus(27)
 
         # Write a single command
 
