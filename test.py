@@ -33,7 +33,7 @@ primero = True
 
 while True:
     if not GPIO.input(sw):
-        lcd.printline(linea_actual, 'Pulsado')
+        lcd.printline(linea_actual, '')
 
     clkState = GPIO.input(clk)
     dtState = GPIO.input(dt)
