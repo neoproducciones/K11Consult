@@ -52,4 +52,4 @@ while True:
         print (linea_actual)
     clkLastState = clkState
     #  sleep(0.01)
-    sleep(0.05)
+    sleep(0.02)
