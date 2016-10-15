@@ -9,16 +9,28 @@ import memdata
 class visThread(threading.Thread):
     def __init__(self):
 
-        self.screenlines = ''
+        self.sensor = 'XXX  0000'
+        # Name and data of one sensor (9 chars)
+
+        self.sbuf = list
+        # Screen lines buffer. Each line is 18 usable chars
+
+        self.viewport = 0
+        self.old_viewport = 0
+        # Number of the current screen.
+
+        self.rows = 4
+        self.cols = 20
+        # Screen size
 
         threading.Thread.__init__(self)
         self.daemon = True
         self.start()
 
     def run(self):
-
+        create_screen(self)
         while memdata.vis:
-            create_screen(self)
+            update_screen(self)
             console_send(screenlines)
             lcd_send(screenlines)
             sleep(memdata.vis_ms)

@@ -33,7 +33,7 @@ primero = True
 
 while True:
     if not GPIO.input(sw):
-        lcd.printline(linea_actual, 'pulsado')
+        lcd.printline(linea_actual, 'Button')
 
     clkState = GPIO.input(clk)
     dtState = GPIO.input(dt)
@@ -61,5 +61,5 @@ while True:
             primero = True
 
     clkLastState = clkState
-    #  sleep(0.01)
-    sleep(0.005)
+    sleep(0.01)
+    #  sleep(0.005)
