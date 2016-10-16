@@ -36,10 +36,10 @@ class visThread(threading.Thread):
 
     def populate_sensors_list(self):
         for sensor in memdata.D:
-            
+            self.sensors.append("cosas")
         self.sensors.append ("KMH:" + str(memdata.D['KMH']).rjust(5))
         self.sensors.append ("ECO:" + str(7.4).rjust(5))  #  Fake as ***
-        self.sensors.append ("RPM:" + string(memdata.D['KMH']).rjust(5))
+
 
         return True
 
@@ -58,7 +58,7 @@ class visThread(threading.Thread):
         1-Velocidad  2-Consumo instantáneo
         3-RPM        4-Avance encendido
         5-Temperat.  6-Oxígeno
-        7-Batería    8-MAF
+        7-Batería    8-ms Inyectores
 
         Segunda pantalla
 

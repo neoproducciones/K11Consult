@@ -15,8 +15,8 @@ def init():
     global vis
     global vis_ms
 
-    D = {'RPM': 0, 'MAF': 0, 'TMP': 0, 'OXY': 0, 'KMH': 0, 'BAT': 0, 'THL': 0, 'INJ': 0, 'TIM': 0, 'IDL': 0,
-         'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
+    D = {'KMH': 0, 'ECO': 0, 'RPM': 0, 'TIM': 0, 'TMP': 0, 'OXY': 0, 'BAT': 0, 'INJ': 0,
+         'THL': 0, 'MAF': 0, 'IDL': 0, 'AFS': 0, 'AFL': 0, 'DR0': 0, 'DR1': 0}
 
     integrity = True
 
