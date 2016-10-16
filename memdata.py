@@ -1,9 +1,11 @@
 D = dict()
-integrity = bool()
+integrity = bool
 
-loguear = bool()
-loguear_ms = int()
+loguear = bool
+loguear_ms = int
 
+vis = bool
+vis_ms = int
 
 def init():
     global D

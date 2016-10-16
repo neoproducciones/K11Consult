@@ -9,15 +9,15 @@ import memdata
 class visThread(threading.Thread):
     def __init__(self):
 
-        self.sensor = 'XXX  0000'
-        # Name and data of one sensor (9 chars)
+        self.sensors = list
+        # List of all sensors. Each sensor is 9 chars
 
         self.sbuf = list
         # Screen lines buffer. Each line is 18 usable chars
 
         self.viewport = 0
         self.old_viewport = 0
-        # Number of the current screen.
+        # Number of the current and former screen.
 
         self.rows = 4
         self.cols = 20
@@ -28,16 +28,30 @@ class visThread(threading.Thread):
         self.start()
 
     def run(self):
-        create_screen(self)
         while memdata.vis:
             update_screen(self)
             console_send(screenlines)
             lcd_send(screenlines)
             sleep(memdata.vis_ms)
-        sleep(1)
 
-    def create_screen(self):
-        -  Método: convierte valores a cadena 9 caracteres "XXX NNNNN"
+    def populate_sensors_list(self):
+        for sensor in memdata.D:
+            
+        self.sensors.append ("KMH:" + str(memdata.D['KMH']).rjust(5))
+        self.sensors.append ("ECO:" + str(7.4).rjust(5))  #  Fake as ***
+        self.sensors.append ("RPM:" + string(memdata.D['KMH']).rjust(5))
+
+        return True
+
+    def populate_screen_buffer(self):
+        return True
+
+
+    def update_screen(self):
+
+
+        -  Método: Inserta valores en lista de sensores "XXX NNNNN"
+        -  Método: Convierte lista de sensores en líneas
 
         Primera pantalla
 
@@ -50,7 +64,7 @@ class visThread(threading.Thread):
 
 
 
-       - memdata.D['RPM'] = int(round((readvalues[0] * 12.5), 2))
+       - memdata.D['RPM'] = int(round((readvalues[0] * 12.5), 0))
        - memdata.D['MAF'] = readvalues[1] * 5
        - memdata.D['TMP'] = readvalues[2] - 50
        - memdata.D['OXY'] = readvalues[3] * 10
