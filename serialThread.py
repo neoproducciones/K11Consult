@@ -104,16 +104,16 @@ class ReadStream(threading.Thread):
     def convertvalues(self, readvalues):
         memdata.integrity = False  # Until all registers have been processed, data is marked invalid
 
-        memdata.D['RPM'] = int(round((readvalues[0] * 12.5), 2))
+        memdata.D['RPM'] = int((readvalues[0] * 12.5))
         memdata.D['MAF'] = readvalues[1] * 5
         memdata.D['TMP'] = readvalues[2] - 50
         memdata.D['OXY'] = readvalues[3] * 10
-        memdata.D['KMH'] = int(round(readvalues[4] * 2))
+        memdata.D['KMH'] = readvalues[4] * 2
         memdata.D['BAT'] = round(((readvalues[5] * 80) / 1000), 1)
         memdata.D['THL'] = readvalues[6] * 20
-        memdata.D['INJ'] = readvalues[7] / 100
+        memdata.D['INJ'] = round((readvalues[7] / 100), 1)
         memdata.D['TIM'] = 110 - readvalues[8]
-        memdata.D['IDL'] = readvalues[9] / 2
+        memdata.D['IDL'] = round(readvalues[9] / 2, 1)
         memdata.D['AFS'] = readvalues[10]
         memdata.D['AFL'] = readvalues[11]
         memdata.D['DR0'] = readvalues[12]
