@@ -7,6 +7,7 @@ loguear_ms = int
 vis = bool
 vis_ms = int
 
+
 def init():
     global D
     global integrity

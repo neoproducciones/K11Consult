@@ -7,7 +7,7 @@ import memdata
 import liquidcrystal_i2c
 
 
-class visThread(threading.Thread):
+class VisThread(threading.Thread):
     def __init__(self):
 
         self.sbuf = ""
@@ -43,7 +43,7 @@ class visThread(threading.Thread):
         for k,v in memdata.D:
             self.sbuf += (" " + k + ":" + v.rjust(5))
         # Here and on we can write the engine error codes.
-        # We must assure the screen buffer lenght is a multiple of rows*col
+        # We must assure the screen buffer length is a multiple of rows*col
 
     def lcd_send(self):
         start = self.viewport * self.sensors_per_display * self.sensor_len

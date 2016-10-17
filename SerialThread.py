@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# serialThread.py
+# SerialThread.py
 
 # Copyright (C) 2014 Eilidh Fridlington http://eilidh.fridlington.com
 
@@ -21,7 +21,7 @@ import sys, time, math, threading, datetime
 import memdata
 
 
-class ReadStream(threading.Thread):
+class SerialThread(threading.Thread):
     def __init__(self, port, connected=True):
         self.port = port
         self.connected = connected

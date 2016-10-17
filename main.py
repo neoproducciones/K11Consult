@@ -18,13 +18,15 @@
 
 import sys, time#, os, serial
 import memdata
-import serialThread
+import SerialThread
+import VisThread
 import dbThread
 
 #PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 PORT = ""
 memdata.init()
-incomingData = serialThread.ReadStream(PORT, True)
+t_serial = SerialThread.SerialThread(PORT, True)
+t_vis = VisThread.VisThread()
 
 print("Esperando al hijo")
 j = 0
