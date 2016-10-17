@@ -37,13 +37,13 @@ class VisThread(threading.Thread):
         while memdata.vis:
             self.write_scr_buffer()
             self.lcd_send()
-            time.sleep(memdata.vis_ms)
+            # time.sleep(memdata.vis_ms)
 
     def write_scr_buffer(self):
         # We create the whole screen buffer as one line
         self.sbuf=""
         for k,v in memdata.D.items():
-            self.sbuf += (" " + k + ":" + v.rjust(5))
+            self.sbuf += (" " + k + ":" + str(v).rjust(5))
         # Here and on we can write the engine error codes.
         # We must assure the screen buffer length is a multiple of rows*col
 

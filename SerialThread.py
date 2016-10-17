@@ -76,7 +76,6 @@ class SerialThread(threading.Thread):
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
         print('waiting for ECU to stream data...')
-        memdata.D['RPM'] = 300
 
         while self.stream == False:
             Header = 255

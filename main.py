@@ -18,20 +18,19 @@
 
 import sys, time#, os, serial
 import memdata
-import SerialThread
+#import SerialThread
 import VisThread
-import dbThread
+#import dbThread
 
 #PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
 PORT = ""
 memdata.init()
-t_serial = SerialThread.SerialThread(PORT, True)
+#t_serial = SerialThread.SerialThread(PORT, True)
 t_vis = VisThread.VisThread()
 
-print("Esperando al hijo")
+print("Waiting for child process")
 j = 0
 while j<10000:
-    print(memdata.D['RPM'])
     j = j+1
     time.sleep (1)
 
