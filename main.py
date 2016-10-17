@@ -33,6 +33,7 @@ j = 0
 while j<10000:
     print(memdata.D['RPM'])
     j = j+1
+    time.sleep (1)
 
 #PORT.write('\x30')
 #PORT.flushInput()
