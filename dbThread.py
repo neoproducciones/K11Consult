@@ -110,7 +110,7 @@ def logging():
         while memdata.loguear:
             write_values(id_session, entry, memdata.D)
             entry = entry + 1
-            time.delay(memdata.loguear_ms)
+            time.sleep(memdata.loguear_ms)
         print("Cerrando sesion")
         cerrar_sesion(id_session, entry)
         print("Sesion cerrada")

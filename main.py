@@ -1,31 +1,27 @@
 #!/usr/bin/python
 # main.py
 
-#Copyright (C) 2015 Eilidh Fridlington http://eilidh.fridlington.com
-
-#This program is free software: you can redistribute it and/or modify
-#it under the terms of the GNU General Public License as published by
-#the Free Software Foundation, either version 3 of the License, or
-#(at your option) any later version.
-
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
-
-#You should have received a copy of the GNU General Public License
-#along with this program.  If not, see <http://www.gnu.org/licenses/>
-
-import sys, time#, os, serial
+import sys
+import time  # os,
 import memdata
-#import SerialThread
-import VisThread
-#import dbThread
-
-#PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
-PORT = ""
 memdata.init()
-#t_serial = SerialThread.SerialThread(PORT, True)
+
+import VisThread
+
+if memdata.usb:
+    import os
+    import serial
+    import SerialThread
+
+    PORT = serial.Serial('/dev/ttyUSB0', 9600, timeout=None)
+    t_serial = SerialThread.SerialThread(PORT, True)
+else:
+    PORT = ""
+
+if memdata.db:
+    import dbThread
+    # t_db = dbThread.dbThread()
+
 t_vis = VisThread.VisThread()
 
 print("Waiting for child process")
@@ -34,7 +30,8 @@ while j<10000:
     j = j+1
     time.sleep (1)
 
-#PORT.write('\x30')
-#PORT.flushInput()
+if memdata.usb:
+    PORT.write('\x30')
+    PORT.flushInput()
 sys.exit()
 
