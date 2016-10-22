@@ -14,6 +14,7 @@ db = bool
 lcd = bool
 encoder = bool
 
+
 def init():
     global D
     global integrity
