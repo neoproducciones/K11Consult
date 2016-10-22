@@ -8,7 +8,8 @@ import sys, time, math, threading, datetime
 import memdata
 if memdata.lcd:
     import liquidcrystal_i2c
-
+if memdata.encoder:
+    import RPi.GPIO as GPIO
 
 class VisThread(threading.Thread):
     def __init__(self):

@@ -12,6 +12,7 @@ vis_ms = int
 usb = bool
 db = bool
 lcd = bool
+encoder = bool
 
 def init():
     global D
@@ -22,6 +23,7 @@ def init():
     global usb
     global db
     global lcd
+    global encoder
 
     tupla = (('KMH', 0), ('ECO', 0), ('RPM', 0), ('TIM', 0), ('TMP', 0), ('OXY', 0), ('BAT', 0), ('INJ', 0),
              ('THL', 0), ('MAF', 0), ('IDL', 0), ('AFS', 0), ('AFL', 0), ('DR0', 0), ('DR1', 0), ('ERR', 0))
@@ -36,5 +38,6 @@ def init():
     usb = False
     db = False
     lcd = True
+    encoder = True
 
     print("Variables inicializadas")
