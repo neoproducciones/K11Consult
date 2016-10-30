@@ -20,7 +20,7 @@ else:
 
 if memdata.db:
     import dbThread
-    # t_db = dbThread.dbThread()
+    t_db = dbThread.dbThread()
 
 t_vis = VisThread.VisThread()
 

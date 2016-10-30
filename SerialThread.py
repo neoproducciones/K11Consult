@@ -22,13 +22,11 @@ import memdata
 
 
 class SerialThread(threading.Thread):
-    def __init__(self, port, connected=True):
+    def __init__(self, port, connected=False):
         self.port = port
-        self.connected = connected
+        self.connected = False
         self.stream = False
         self.integrity = False
-
-        self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
 
         threading.Thread.__init__(self)
         self.daemon = True
