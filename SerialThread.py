@@ -24,7 +24,7 @@ import memdata
 class SerialThread(threading.Thread):
     def __init__(self, port, connected=False):
         self.port = port
-        self.connected = False
+        self.connected = connected
         self.stream = False
         self.integrity = False
 
@@ -33,29 +33,28 @@ class SerialThread(threading.Thread):
         self.start()
 
     def run(self):
-
+        self.port.flushInput()
         while self.connected == False:
-
+            print ('Trying to connect to ECU')
             self.port.write('\xFF\xFF\xEF')
             time.sleep(2)
-            isConnected = self.port.inWaiting()
+            got_response = self.port.inWaiting()
 
-            if isConnected:
+            if got_response:
+                print ("Leidos datos del puerto")
                 ecuResponse = self.port.read(1)
                 if ecuResponse == '\x10':
-                    print('Correct reply from ECU, sending data...')
+                    print('Correct reply from ECU')
                     self.connected = True
-
                 else:
                     print('Wrong reply from ECU')
-
-            else:
-                print('Trying to connect to ECU')
-                self.port.write('\xFF\xFF\xEF')
-                time.sleep(2)
-
-        #self.port.write(
-        #    '\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0B\x5A\x0C\x5A\x0D\x5A\x15\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x1E\x5A\x1F\xF0')
+            # else:
+            #    print('Trying to connect to ECU')
+            #    self.port.write('\xFF\xFF\xEF')
+            #    time.sleep(2)
+        print ("Sending streaming command")
+        self.port.write(
+            '\x5A\x01\x5A\x05\x5A\x08\x5A\x09\x5A\x0B\x5A\x0C\x5A\x0D\x5A\x15\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x1E\x5A\x1F\xF0')
 
         ####### Sensors to read:
         ## [00] 0x01 RPM
@@ -73,7 +72,7 @@ class SerialThread(threading.Thread):
         ## [12] 0x1E DR0 DIGITAL CONTROL REGISTER 0
         ## [13] 0x1F DR1 DIGITAL CONTROL REGISTER 1
 
-        print('waiting for ECU to stream data...')
+        print('Starting streaming sync')
 
         while self.stream == False:
             Header = 255
@@ -90,11 +89,8 @@ class SerialThread(threading.Thread):
         while self.stream == True:
             incoming_data = self.port.read(16)
             if incoming_data:
-                # We have a full line we could store into a file here
-
                 datalist = map(ord, incoming_data)
                 self.convertvalues(datalist)
-
             else:
                 pass
 
@@ -118,4 +114,3 @@ class SerialThread(threading.Thread):
 
         memdata.integrity = True
         return True
-

@@ -36,9 +36,9 @@ def init():
     loguear_ms = 500
     vis = True
 
-    usb = False
+    usb = True
     db = False
-    lcd = True
-    encoder = True
+    lcd = False
+    encoder = False
 
     print("Variables inicializadas")
