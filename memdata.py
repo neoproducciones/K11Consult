@@ -37,8 +37,8 @@ def init():
     vis = True
 
     usb = True
-    db = False
-    lcd = False
-    encoder = False
+    db = True
+    lcd = True
+    encoder = True
 
     print("Variables inicializadas")
